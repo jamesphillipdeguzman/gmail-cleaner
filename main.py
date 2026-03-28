@@ -3,6 +3,7 @@ from googleapiclient.discovery import build
 import pickle
 import os
 import json
+import time
 from datetime import datetime, timezone
 
 SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
@@ -159,11 +160,20 @@ def archive(service, emails):
 # DELETE
 # =========================
 def delete(service, emails):
-    for e in emails:
-        service.users().messages().trash(
+    ids = [e["id"] for e in emails]
+
+    print(f"\n🗑️ Deleting {len(ids)} emails...")
+
+    try:
+        service.users().messages().batchDelete(
             userId="me",
-            id=e["id"]
+            body={"ids": ids}
         ).execute()
+
+        print("✅ Batch delete successful!")
+
+    except Exception as e:
+        print("❌ Error:", e)
 
 
 # =========================
@@ -222,9 +232,11 @@ def menu(service, emails):
 
 
 # =========================
-# MAIN
+# MAIN (WITH TIMER)
 # =========================
 def main():
+    start_time = time.time()  # ⏱️ START TIMER
+
     service = get_service()
 
     print("⚡ PRODUCTION MODE: Smart Gmail Scan")
@@ -240,6 +252,19 @@ def main():
     all_emails = analyze(cache)
 
     menu(service, all_emails)
+
+    # ⏱️ END TIMER
+    end_time = time.time()
+    elapsed = end_time - start_time
+
+    minutes = int(elapsed // 60)
+    seconds = int(elapsed % 60)
+
+    print("\n⏱️ PROCESSING TIME:")
+    print(f"{elapsed:.2f} seconds")
+
+    if minutes > 0:
+        print(f"≈ {minutes} min {seconds} sec")
 
 
 if __name__ == "__main__":

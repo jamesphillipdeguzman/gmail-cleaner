@@ -33,6 +33,11 @@ venv/
 .DS_Store
 Thumbs.db
 
+# Build artifacts
+dist/
+build/
+main.spec
+
 # 🔐 Security files
 *.pem
 *.key
