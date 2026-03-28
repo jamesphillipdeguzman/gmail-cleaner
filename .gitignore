@@ -1,0 +1,38 @@
+# 🔐 Google / OAuth secrets
+credentials.json
+token.json
+client_secret*.json
+Client ID*
+
+# 🐍 Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 🧪 Virtual environment
+venv/
+.env
+.env.*
+
+# 🧠 Optional serialized auth/cache
+*.pickle
+*.pkl
+
+# 💻 VS Code / IDE
+.vscode/
+.idea/
+
+# 🪵 Logs
+*.log
+
+# 🗄️ Databases
+*.sqlite3
+*.db
+
+# 🖥️ OS files
+.DS_Store
+Thumbs.db
+
+# 🔐 Security files
+*.pem
+*.key
